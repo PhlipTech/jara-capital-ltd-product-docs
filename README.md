@@ -1,4 +1,4 @@
-# Investment App Nigeria – static documentation (deploy this folder)
+# JARA CAPITAL LIMITED – static documentation (deploy this folder)
 
 Upload **`docs/investment-app-nigeria/`** as-is to any static host (S3, GCS, Azure Blob with static website, Netlify, Cloudflare Pages, etc.).
 
