@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Investment App Nigeria – Backend ERD</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f8fafc;
+      --card: #fff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --card: #1e293b;
+        --text: #f1f5f9;
+        --muted: #94a3b8;
+        --border: #334155;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      margin: 0;
+      padding: 1.5rem;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem;
+    }
+    .meta {
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+    .note {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9375rem;
+    }
+    .note strong { color: var(--text); }
+    .diagram-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 0.5rem 2rem;
+      overflow-x: auto;
+    }
+    .mermaid {
+      display: flex;
+      justify-content: center;
+      min-height: 200px;
+    }
+    footer {
+      font-size: 0.8125rem;
+      color: var(--muted);
+      text-align: center;
+      padding: 1.5rem 1rem 0;
+    }
+    a {
+      color: #2563eb;
+    }
+    @media (prefers-color-scheme: dark) {
+      a { color: #60a5fa; }
+    }
+    .hub-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+    .hub-nav a { text-decoration: none; }
+    .hub-nav a:hover { text-decoration: underline; }
+    .hub-nav a[aria-current="page"] { font-weight: 700; color: var(--text); pointer-events: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <nav class="hub-nav" aria-label="Documentation">
+        <a href="./index.html">All docs</a>
+        <a href="./investment-app-nigeria-PRD.html">PRD</a>
+        <a href="./investment-app-nigeria-flowcharts.html">Flowcharts</a>
+        <a href="./investment-app-nigeria-erd.html" aria-current="page">ERD</a>
+      </nav>
+      <h1>Backend – Logical entity-relationship diagram</h1>
+      <p class="meta">Investment App Nigeria · App database (not Cowrywise internal schema) · Open in a browser. Markdown source in repo: <code>../investment-app-nigeria-erd.md</code> (Mermaid in editor).</p>
+    </header>
+
+    <div class="note">
+      <strong>Principles:</strong> Cowrywise is the source of truth for balances, positions, and regulated transactions.
+      This schema stores app identity, <strong>PhlipVerify</strong> eKYC outcomes, Cowrywise linkage IDs, consent, idempotency keys, sessions, admin audit, and optional sync cursors. <code>COWRYWISE_LINKAGE.kyc_status</code> reflects Cowrywise account state if their API exposes it; customer identity checks are not from Cowrywise.
+      Optional MVP+ tables: <code>CACHED_TRANSACTION</code>, <code>CACHED_POSITION</code> for TTL-based read models.
+    </div>
+
+    <div class="diagram-box">
+      <div class="mermaid">
+erDiagram
+  APP_USER ||--|| USER_PROFILE : has
+  APP_USER |o--o| IDENTITY_VERIFICATION : has
+  APP_USER ||--|| COWRYWISE_LINKAGE : has
+  APP_USER ||--o{ CONSENT_RECORD : accepts
+  APP_USER ||--o{ IDEMPOTENCY_KEY : uses
+  APP_USER ||--o{ SUPPORT_NOTE : has_note
+  COWRYWISE_LINKAGE ||--o{ SYNC_CURSOR : sync_cursor
+  APP_USER ||--o{ DEVICE_SESSION : has
+  ADMIN_USER ||--o{ AUDIT_LOG : creates
+
+  APP_USER {
+    string id PK
+    string email
+    string phone
+    string password_hash
+    timestamp created_at
+    timestamp updated_at
+    string status
+  }
+
+  USER_PROFILE {
+    string user_id PK
+    string full_name
+    string avatar_url
+    timestamp updated_at
+  }
+
+  IDENTITY_VERIFICATION {
+    string id PK
+    string user_id FK
+    string phlipverify_session_ref
+    string overall_status
+    string liveness_status
+    string bvn_status
+    string nin_status
+    string address_status
+    timestamp updated_at
+  }
+
+  COWRYWISE_LINKAGE {
+    string user_id PK
+    string cowrywise_customer_id
+    string wallet_id
+    string kyc_status
+    timestamp linked_at
+    timestamp last_synced_at
+  }
+
+  CONSENT_RECORD {
+    string id PK
+    string user_id FK
+    string document_type
+    string document_version
+    timestamp accepted_at
+    string ip_hash
+  }
+
+  IDEMPOTENCY_KEY {
+    string id PK
+    string user_id FK
+    string operation
+    string client_key
+    string cowrywise_ref
+    timestamp created_at
+  }
+
+  SYNC_CURSOR {
+    string user_id PK
+    string cursor_type
+    string cursor_value
+    timestamp updated_at
+  }
+
+  DEVICE_SESSION {
+    string id PK
+    string user_id FK
+    string refresh_token_hash
+    timestamp expires_at
+    string device_info
+  }
+
+  ADMIN_USER {
+    string id PK
+    string email
+    string role
+    timestamp created_at
+  }
+
+  AUDIT_LOG {
+    string id PK
+    string admin_id FK
+    string action
+    string target_type
+    string target_id
+    string details
+    timestamp created_at
+  }
+
+  SUPPORT_NOTE {
+    string id PK
+    string user_id FK
+    string author_admin_id FK
+    string note
+    timestamp created_at
+  }
+      </div>
+    </div>
+
+    <h2 style="font-size:1.125rem;margin:2rem 0 0.75rem;">Phase 2: Auto-Save and credit (logical)</h2>
+    <p class="meta">Local rules and cached partner snapshots. Balances, mandates, and loan ledgers remain authoritative on Cowrywise or the credit partner.</p>
+    <div class="diagram-box">
+      <div class="mermaid">
+erDiagram
+  APP_USER ||--o{ AUTOSAVE_RULE : owns
+  APP_USER ||--o{ CREDIT_FACILITY_CACHE : views
+  AUTOSAVE_RULE {
+    string id PK
+    string user_id FK
+    string cadence
+    string amount_spec
+    string destination_product_ref
+    string partner_schedule_id
+    string status
+    timestamp next_run_at
+  }
+  CREDIT_FACILITY_CACHE {
+    string id PK
+    string user_id FK
+    string partner_facility_id
+    string product_kind
+    string limit_amount
+    string drawn_amount
+    timestamp refreshed_at
+  }
+      </div>
+    </div>
+
+    <footer>
+      <a href="./index.html">Documentation hub</a> &middot;
+      <a href="https://mermaid.js.org/" rel="noopener">Mermaid</a> (CDN; network required once).
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "neutral",
+      er: { fontSize: 12 },
+      securityLevel: "strict",
+    });
+  </script>
+</body>
+</html>

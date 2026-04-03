@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Investment App Nigeria – User &amp; system flowcharts</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f8fafc;
+      --card: #fff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --card: #1e293b;
+        --text: #f1f5f9;
+        --muted: #94a3b8;
+        --border: #334155;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      margin: 0;
+      padding: 1.5rem;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem;
+    }
+    .meta {
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+    section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem 2rem;
+      margin-bottom: 2rem;
+    }
+    section h2 {
+      font-size: 1.125rem;
+      margin: 0 0 1rem;
+    }
+    .mermaid {
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+    }
+    footer {
+      font-size: 0.8125rem;
+      color: var(--muted);
+      text-align: center;
+      padding: 1rem;
+    }
+    .hub-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+    .hub-nav a { color: #2563eb; text-decoration: none; }
+    .hub-nav a:hover { text-decoration: underline; }
+    .hub-nav a[aria-current="page"] { font-weight: 700; color: var(--text); pointer-events: none; }
+    a {
+      color: #2563eb;
+    }
+    @media (prefers-color-scheme: dark) {
+      a { color: #60a5fa; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <nav class="hub-nav" aria-label="Documentation">
+        <a href="./index.html">All docs</a>
+        <a href="./investment-app-nigeria-PRD.html">PRD</a>
+        <a href="./investment-app-nigeria-flowcharts.html" aria-current="page">Flowcharts</a>
+        <a href="./investment-app-nigeria-erd.html">ERD</a>
+      </nav>
+      <h1>Investment App – Nigeria</h1>
+      <p class="meta">User journeys, payments, phased Auto-Save and credit, retries &amp; audit, system context · Cowrywise Embed · Open in a browser.</p>
+    </header>
+
+    <section>
+      <h2>1. Mobile – New user: first investment (happy path)</h2>
+      <div class="mermaid">
+flowchart TD
+  A[Open mobile app] --> B{Has account?}
+  B -->|No| C[Sign up]
+  B -->|Yes| Z[Login]
+  C --> D[Verify email/phone if required]
+  D --> E[Accept app + partner terms]
+  E --> F[Home / Dashboard]
+  Z --> F
+  F --> G[Tap Invest or Add money]
+  G --> FV{PhlipVerify eKYC complete?}
+  FV -->|No| FV1[Complete liveness BVN NIN address via PhlipVerify]
+  FV1 --> K0{Required checks passed?}
+  K0 -->|No| L0[Show status and next steps]
+  K0 -->|Yes| H
+  FV -->|Yes| H
+  H{Cowrywise linked?}
+  H -->|No| I[Backend: create/link Cowrywise account]
+  I --> M[Show wallet + virtual account]
+  H -->|Yes| M
+  M --> N[User transfers to virtual account]
+  N --> O[Wallet balance updates]
+  O --> P[Browse products]
+  P --> Q[Select product + amount]
+  Q --> R[Confirm investment]
+  R --> S[Backend executes via Cowrywise]
+  S --> T{Success?}
+  T -->|Yes| U[Show success + portfolio]
+  T -->|No| V[Show error + retry/support]
+      </div>
+    </section>
+
+    <section>
+      <h2>2. Mobile – Returning user: fund and invest</h2>
+      <div class="mermaid">
+flowchart TD
+  A[Login] --> B[Dashboard]
+  B --> C[Add money - VA details]
+  C --> D[User funds via bank]
+  D --> E[Balance refresh]
+  E --> F[Invest - choose product]
+  F --> G[Confirm]
+  G --> H[API invest]
+  H --> I[Portfolio + Activity updated]
+      </div>
+    </section>
+
+    <section>
+      <h2>3. Mobile – Withdraw / redeem</h2>
+      <div class="mermaid">
+flowchart TD
+  A[Portfolio or Wallet] --> B{Withdraw supported?}
+  B -->|No| C[Explain product rules]
+  B -->|Yes| D[Enter amount + destination if required]
+  D --> E[Confirm]
+  E --> F[Backend submit withdrawal/redemption]
+  F --> G[Show status + timeline]
+  G --> H[Activity shows pending then completed]
+      </div>
+    </section>
+
+    <section>
+      <h2>4. System context (PhlipVerify, Cowrywise, backend)</h2>
+      <div class="mermaid">
+flowchart LR
+  subgraph clients["Clients"]
+    M[Mobile app]
+    W[Web admin]
+  end
+  subgraph our["Our platform"]
+    API[App backend API]
+    DB[(App database)]
+    JOB[Workers optional]
+  end
+  FV[PhlipVerify eKYC]
+  CW[Cowrywise Embed API]
+  M -->|HTTPS JWT| API
+  W -->|HTTPS staff auth| API
+  API --> DB
+  API --> JOB
+  API -->|Server-side only| FV
+  API -->|Server-side only| CW
+  JOB -->|Async sync| CW
+      </div>
+    </section>
+
+    <section>
+      <h2>5. Web admin – Support lookup (illustrative)</h2>
+      <div class="mermaid">
+flowchart TD
+  A[Staff login] --> B[Search user]
+  B --> C[View app profile - read only]
+  C --> D[View PhlipVerify plus Cowrywise linkage - read only]
+  D --> E{Need action?}
+  E -->|Escalate| F[Create ticket / internal process]
+  E -->|Config change| G[Feature flag - non secret]
+      </div>
+    </section>
+
+    <section>
+      <h2>6. Payments – services to integrate</h2>
+      <p class="meta">How money moves: user bank via NIP to Cowrywise virtual account, in-app wallet ops and payouts through Embed API. Your backend is the only place that holds partner secrets and coordinates audit.</p>
+      <div class="mermaid">
+flowchart LR
+  subgraph banks["Banks and rails"]
+    NIP[Bank transfer NIP]
+  end
+  subgraph cw["Cowrywise"]
+    VA[Virtual account + wallet]
+    EMB[Embed API]
+  end
+  subgraph ours["Our platform"]
+    MOB[Mobile app]
+    API[Backend API]
+    AUD[(Audit log store)]
+    IDEM[(Idempotency + state)]
+    Q[Job queue]
+    WK[Workers]
+    WH[Webhook ingress]
+    ADM[Web admin read-only]
+    OBS[Logs metrics traces]
+    RULES[(Auto-Save rules DB phased)]
+  end
+  subgraph credit["Credit partner phased"]
+    CR[Loan overdraft API]
+  end
+  NIP -->|credit VA| VA
+  VA --> EMB
+  MOB -->|JWT| API
+  ADM -->|staff auth| API
+  API --> EMB
+  API --> CR
+  API --> AUD
+  API --> IDEM
+  API --> RULES
+  API --> Q
+  Q --> WK
+  WK --> EMB
+  WK --> CR
+  WK --> AUD
+  EMB -.->|async events| WH
+  CR -.->|status events| WH
+  WH --> API
+  API --> OBS
+  WK --> OBS
+      </div>
+    </section>
+
+    <section>
+      <h2>7. Outbound payments – retries and audit</h2>
+      <p class="meta">Invest, withdraw, and wallet mutations initiated by your API: correlation ID per request, idempotency keys, append-only audit. Retries only for transient provider or network errors, exponential backoff with jitter, cap and dead-letter.</p>
+      <div class="mermaid">
+flowchart TD
+  R[Client request invest withdraw wallet op] --> V[Validate auth limits idempotency key]
+  V --> A1[Audit PAYMENT_REQUEST_RECEIVED]
+  A1 --> P[Call Cowrywise with idempotency header]
+  P --> OUT{Outcome}
+  OUT -->|2xx success| A2[Audit PROVIDER_SUCCESS]
+  A2 --> S[Persist wallet or txn state]
+  S --> A3[Audit STATE_UPDATED]
+  A3 --> OK[Return success to client]
+  OUT -->|4xx permanent| A4[Audit PROVIDER_REJECTED]
+  A4 --> UERR[Return error to user]
+  OUT -->|5xx or timeout| A5[Audit PROVIDER_TRANSIENT]
+  A5 --> RET{Retries below max?}
+  RET -->|Yes| A6[Audit RETRY_SCHEDULED]
+  A6 --> QJ[Enqueue job backoff plus jitter]
+  QJ --> WK[Worker executes later]
+  WK --> P
+  RET -->|No| A7[Audit PAYMENT_FAILED_EXHAUSTED]
+  A7 --> DLQ[Dead letter queue plus alert]
+  A7 --> UMSG[User sees clear message plus support]
+      </div>
+    </section>
+
+    <section>
+      <h2>8. Inbound webhooks – verification and audit</h2>
+      <p class="meta"><strong>PhlipVerify</strong> and Cowrywise (and bank rails) may POST status events. Verify signatures, dedupe by event id, apply once, log every step for dispute and compliance.</p>
+      <div class="mermaid">
+flowchart TD
+  H[HTTPS POST webhook] --> S1[Verify signature and timestamp]
+  S1 -->|invalid| A0[Audit WEBHOOK_REJECTED]
+  A0 --> R401[Return 401]
+  S1 -->|ok| A1[Audit WEBHOOK_RECEIVED]
+  A1 --> DED{Event id seen before?}
+  DED -->|Yes| A2[Audit WEBHOOK_DUPLICATE_SKIP]
+  A2 --> R200[Return 200 idempotent]
+  DED -->|No| PROC[Apply business update balance or status]
+  PROC --> A3[Audit WEBHOOK_APPLIED]
+  A3 --> PERS[Persist idempotency row for event id]
+  PERS --> A4[Audit STATE_UPDATED]
+      A4 --> R200B[Return 200]
+      </div>
+    </section>
+
+    <section>
+      <h2>9. Auto-Save rule lifecycle (phased)</h2>
+      <p class="meta">User-defined recurring or rule-based moves into savings/wallet. Scheduler runs on your backend or partner; every execution is idempotent and audited.</p>
+      <div class="mermaid">
+flowchart TD
+  U[User creates or edits rule] --> C[Consent and disclosure]
+  C --> S[Save rule in app DB]
+  S --> A1[Audit AUTOSAVE_RULE_CREATED]
+  A1 --> SYNC{Partner recurring or mandate API?}
+  SYNC -->|Yes| P[Register schedule with partner]
+  P --> A2[Audit AUTOSAVE_PARTNER_REGISTERED]
+  SYNC -->|No| Q2[Enqueue local scheduler job]
+  Q2 --> A3[Audit AUTOSAVE_SCHEDULED_LOCAL]
+  A2 --> T[Tick due execution]
+  A3 --> T
+  T --> I[Idempotency check for run id]
+  I --> A4[Audit AUTOSAVE_ATTEMPT]
+  A4 --> X[Execute transfer or debit via partner]
+  X --> OK{Success?}
+  OK -->|Yes| A5[Audit AUTOSAVE_SUCCESS]
+  OK -->|No| A6[Audit AUTOSAVE_FAIL]
+  A6 --> R[Retry policy or user notify]
+      </div>
+    </section>
+
+    <section>
+      <h2>10. Lending and overdraft (phased)</h2>
+      <p class="meta">Eligibility and ledger stay with the partner; app orchestrates UX, drawdown confirmation, and mirrors status into audit.</p>
+      <div class="mermaid">
+flowchart TD
+  V[User opens Borrow screen] --> E[Fetch eligibility and limit from partner]
+  E --> A1[Audit CREDIT_OFFER_VIEWED]
+  A1 --> EL{Eligible?}
+  EL -->|No| N[Show not eligible and reasons]
+  EL -->|Yes| D[User enters draw amount]
+  D --> CONF[Confirm fees APR schedule]
+  CONF --> A2[Audit CREDIT_DRAW_REQUESTED]
+  A2 --> P[Partner API create draw or activate overdraft]
+  P --> OUT{Outcome}
+  OUT -->|Approved| A3[Audit CREDIT_DRAW_APPROVED]
+  A3 --> SH[Show facility schedule repayment]
+  SH --> REP[Repayment or auto-debit due]
+  REP --> A5[Audit CREDIT_REPAY_ATTEMPT]
+  A5 --> PR[Partner process payment]
+  PR --> A6[Audit CREDIT_REPAY_SETTLED]
+  OUT -->|Declined| A4[Audit CREDIT_DRAW_DECLINED]
+      </div>
+    </section>
+
+    <footer>
+      <a href="./index.html">Documentation hub</a> &middot;
+      Diagrams use <a href="https://mermaid.js.org/" rel="noopener">Mermaid</a> via CDN (network required once).
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "neutral",
+      flowchart: { htmlLabels: true, curve: "basis" },
+      securityLevel: "strict",
+    });
+  </script>
+</body>
+</html>

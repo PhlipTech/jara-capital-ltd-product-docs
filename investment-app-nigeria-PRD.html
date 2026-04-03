@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PRD – Investment App Nigeria (Cowrywise · PhlipVerify)</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --accent: #2563eb;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --card: #1e293b;
+        --text: #f1f5f9;
+        --muted: #94a3b8;
+        --border: #334155;
+        --accent: #60a5fa;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 1.5rem;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      font-size: 0.9375rem;
+    }
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    header.doc-head {
+      margin-bottom: 2rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 0 0 0.75rem;
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 0 0 1rem;
+    }
+    .subtitle strong { color: var(--text); font-weight: 600; }
+    nav.doc-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      font-size: 0.875rem;
+      margin-top: 1rem;
+    }
+    nav.doc-nav a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    nav.doc-nav a:hover { text-decoration: underline; }
+    section {
+      margin-bottom: 2rem;
+    }
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0 0 0.75rem;
+      padding-top: 0.25rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+    }
+    section:first-of-type h2 { border-top: 0; padding-top: 0; }
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 1.25rem 0 0.5rem;
+    }
+    p { margin: 0.65rem 0; }
+    ul, ol { margin: 0.65rem 0; padding-left: 1.35rem; }
+    li { margin: 0.35rem 0; }
+    a { color: var(--accent); }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+      font-size: 0.88em;
+      background: var(--border);
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      margin: 0.75rem 0 1rem;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.65rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: color-mix(in srgb, var(--border) 40%, transparent);
+      font-weight: 600;
+    }
+    .table-wide th:nth-child(1), .table-wide td:nth-child(1) { white-space: nowrap; }
+    @media (max-width: 640px) {
+      .scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    }
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8125rem;
+      color: var(--muted);
+    }
+    .doc-nav a[aria-current="page"] {
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="doc-head">
+      <h1>Product Requirements Document (PRD)</h1>
+      <p class="subtitle">
+        <strong>Investment App &ndash; Nigeria (Cowrywise Embed)</strong><br>
+        Version: 1.4 &middot; Date: March 2026 &middot; Status: Draft<br>
+        Related: BRD v1.0 (Feb 2026), Cowrywise Embed API, PhlipVerify (eKYC)
+      </p>
+      <nav class="doc-nav" aria-label="Documentation">
+        <a href="./index.html">All docs</a>
+        <a href="./investment-app-nigeria-PRD.html" aria-current="page">PRD</a>
+        <a href="./investment-app-nigeria-flowcharts.html">Flowcharts</a>
+        <a href="./investment-app-nigeria-erd.html">ERD</a>
+      </nav>
+    </header>
+
+    <article>
+      <section id="s1">
+        <h2>1. Purpose and audience</h2>
+        <p>This PRD translates the Business Requirements Document into <strong>functional behaviour</strong>, <strong>user flows</strong>, <strong>data ownership</strong>, and <strong>platform split</strong>:</p>
+        <div class="scroll-x">
+          <table>
+            <thead>
+              <tr>
+                <th>Surface</th>
+                <th>Users</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Mobile app</strong> (iOS / Android)</td>
+                <td>Consumers (B2C)</td>
+                <td>Sign-up, profile, <strong>eKYC via PhlipVerify</strong> (liveness, BVN, NIN, address, etc.), Cowrywise linkage, wallet, products, invest, portfolio, withdraw; phased: <strong>Auto-Save</strong>, <strong>lending / overdraft</strong> when API and compliance allow</td>
+              </tr>
+              <tr>
+                <td><strong>Web admin</strong></td>
+                <td>Internal ops, support, compliance (roles TBD)</td>
+                <td>View users, linkage/KYC status (read-heavy), audit, configuration (non-secret), support actions</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Never in-house (any phase):</strong> Custody, fund management, core banking rails as your own regulated stack; crypto unless explicitly added.</p>
+        <p><strong>MVP core:</strong> Savings and investment flows via Cowrywise Embed (wallet, VA, catalog, invest, portfolio, withdraw as API supports).</p>
+        <p><strong>Phased products (in this PRD):</strong> <strong>Auto-Save</strong> (rules, mandates or partner recurring debits, round-ups if offered) and <strong>lending / overdraft</strong> (eligibility, limit, drawdown, repayment, collateral tied to savings per BRD). Delivery depends on Cowrywise Embed (or another licensed partner) exposing credit and recurring-debit capabilities; until then, requirements below define UX, audit, and integration hooks.</p>
+      </section>
+
+      <section id="s2">
+        <h2>2. Product summary</h2>
+        <h3>2.1 Vision</h3>
+        <p>Enable Nigerians to save and invest through a <strong>single mobile experience</strong> while <strong>Cowrywise</strong> provides regulated accounts, wallets, products, and settlement via the <strong>Embed API</strong>.</p>
+        <h3>2.2 Value proposition</h3>
+        <ul>
+          <li><strong>Users:</strong> Simple flows: register &rarr; <strong>eKYC via PhlipVerify</strong> &rarr; link Cowrywise account &rarr; fund wallet &rarr; choose product &rarr; track performance &rarr; withdraw/redeem where supported.</li>
+          <li><strong>Business:</strong> Fast time-to-market; compliance and custody delegated to Cowrywise; app owns UX, acquisition, and engagement.</li>
+          <li><strong>Partner:</strong> Cowrywise supplies API; app must honour terms, rate limits, and server-side-only credentials.</li>
+        </ul>
+        <h3>2.3 BRD traceability</h3>
+        <div class="scroll-x">
+          <table>
+            <thead>
+              <tr><th>BR ID</th><th>PRD coverage</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>BR1</td><td>Section 4.1 (Users &amp; profile), FR-01&ndash;FR-03; Section 4.1b (PhlipVerify eKYC), FR-39&ndash;FR-44</td></tr>
+              <tr><td>BR2</td><td>Section 4.2 (Cowrywise linkage), FR-04&ndash;FR-07</td></tr>
+              <tr><td>BR3</td><td>Section 4.3 (Product catalog), FR-08&ndash;FR-10</td></tr>
+              <tr><td>BR4</td><td>Section 4.4 (Wallet), FR-11&ndash;FR-13</td></tr>
+              <tr><td>BR5</td><td>Section 4.5 (Invest), FR-14&ndash;FR-17</td></tr>
+              <tr><td>BR6</td><td>Section 4.6 (Portfolio &amp; history), FR-18&ndash;FR-21</td></tr>
+              <tr><td>BR7</td><td>Section 4.7 (Withdraw / redeem), FR-22&ndash;FR-24</td></tr>
+              <tr><td>BR8</td><td>Section 4.8 (Compliance &amp; security), FR-25&ndash;FR-28</td></tr>
+              <tr><td>Product</td><td>Section 4.9 (Auto-Save), FR-29&ndash;FR-32; Section 4.10 (Lending / overdraft), FR-33&ndash;FR-38</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="s3">
+        <h2>3. Assumptions and constraints</h2>
+        <h3>3.1 Assumptions</h3>
+        <ul>
+          <li>Cowrywise Embed API exposes: accounts, wallets (incl. virtual account), products, fund investment from wallet, transactions, portfolio/positions, withdrawals/redemptions as documented at <a href="https://developers.cowrywise.com" rel="noopener">developers.cowrywise.com</a>. <strong>Identity and eKYC are not performed by Cowrywise in this architecture.</strong></li>
+          <li><strong>PhlipVerify</strong> is the identity provider for <strong>liveness</strong>, <strong>BVN</strong>, <strong>NIN</strong>, <strong>address</strong>, and other checks you enable; all PhlipVerify calls are <strong>server-side</strong> from your backend; the app stores verification outcomes, references, and timestamps (NDPR-aligned minimisation).</li>
+          <li>Primary currency <strong>NGN</strong>; USD (or other) products only if exposed by API.</li>
+          <li>Users can fund via bank transfer to <strong>virtual account</strong> (NIP/transfer).</li>
+          <li><strong>Auto-Save</strong> may use partner recurring instructions, bank mandates, or in-app scheduled wallet transfers, subject to NDPR consent and partner API.</li>
+          <li><strong>Lending / overdraft</strong> is originated and serviced by a licensed partner; the app surfaces limits, draws, schedules, and statements via API; credit decisions and ledger of record stay with the partner.</li>
+        </ul>
+        <h3>3.2 Constraints</h3>
+        <ul>
+          <li><strong>No Cowrywise secrets in mobile clients.</strong> All Embed API calls from <strong>backend</strong>; mobile talks to <strong>our API</strong> only.</li>
+          <li><strong>NDPR:</strong> lawful basis, privacy notice, data minimisation, retention policy, user rights (access/erasure where applicable).</li>
+          <li><strong>AML/KYC:</strong> Identity verification is satisfied via <strong>PhlipVerify</strong> outcomes; Cowrywise may still enforce its own account rules before wallet or invest. App surfaces combined status and blocks invest/withdraw per policy when PhlipVerify or Cowrywise indicates not ready.</li>
+          <li>Rate limits: implement backoff, queues for async jobs, user-visible retry messaging.</li>
+        </ul>
+      </section>
+
+      <section id="s4">
+        <h2>4. Functional requirements</h2>
+        <h3>4.1 Users and profile (BR1)</h3>
+        <div class="scroll-x">
+          <table class="table-wide">
+            <thead>
+              <tr><th>ID</th><th>Requirement</th><th>Acceptance criteria</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>FR-01</td><td>User can register with email/phone and password (or OTP flow if product chooses).</td><td>Account created in app DB; session issued; verification strategy documented.</td></tr>
+              <tr><td>FR-02</td><td>User can log in and log out securely.</td><td>Tokens refreshed/revoked per security policy; no long-lived secrets in app binary.</td></tr>
+              <tr><td>FR-03</td><td>User can view and edit profile: name, phone, email (where editable).</td><td>Changes persisted; email/phone change may require re-verification.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>4.1b Identity verification and eKYC (PhlipVerify)</h3>
+        <p class="subtitle" style="font-size:0.875rem;color:var(--muted);margin:-0.25rem 0 0.75rem;">Cowrywise is <strong>not</strong> used for customer identity checks. <strong>PhlipVerify</strong> covers liveness, BVN, NIN, address verification, and other modules you configure. Secrets and API keys stay on the backend only.</p>
+        <div class="scroll-x">
+          <table class="table-wide">
+            <thead>
+              <tr><th>ID</th><th>Requirement</th><th>Acceptance criteria</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>FR-39</td><td>User completes eKYC through <strong>PhlipVerify</strong> for the checks you enable (e.g. liveness, BVN, NIN, address).</td><td>Flows initiated from app; all PhlipVerify API calls executed from <strong>backend</strong>; mobile receives only session or deep-link handoff as PhlipVerify supports.</td></tr>
+              <tr><td>FR-40</td><td>App persists <strong>verification outcomes</strong> (per check status, overall status, provider references, timestamps); no PhlipVerify secrets in the client.</td><td>Data minimisation per NDPR; retention policy documented.</td></tr>
+              <tr><td>FR-41</td><td><strong>PhlipVerify webhooks or callbacks</strong> (if used) are signature-verified, <strong>idempotent</strong> by event or session id, and written to <strong>audit log</strong>.</td><td>Duplicate events do not double-apply state.</td></tr>
+              <tr><td>FR-42</td><td><strong>Cowrywise linkage and first investment</strong> are allowed only when identity policy is satisfied (e.g. PhlipVerify passed for required checks).</td><td>Gating rules configurable; clear UX when blocked.</td></tr>
+              <tr><td>FR-43</td><td>User sees <strong>identity verification status</strong> in profile (e.g. pending, partial, verified, failed) derived from stored PhlipVerify results.</td><td>Support can explain next steps; no misleading &ldquo;verified&rdquo; if any required check failed.</td></tr>
+              <tr><td>FR-44</td><td>Legal: user accepts PhlipVerify / processing terms where required; DPA with PhlipVerify on file; sub-processor disclosure in privacy notice.</td><td>Versioned consent where applicable.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>4.2 Cowrywise linkage (BR2)</h3>
+        <div class="scroll-x">
+          <table class="table-wide">
+            <thead>
+              <tr><th>ID</th><th>Requirement</th><th>Acceptance criteria</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>FR-04</td><td>When identity policy allows (see FR-42 / PhlipVerify), on first investment-related action (or explicit &ldquo;Start investing&rdquo;), app initiates <strong>Cowrywise account creation/link</strong> per API.</td><td>Backend calls Cowrywise; returns linkage success or actionable error.</td></tr>
+              <tr><td>FR-05</td><td>App stores <strong>Cowrywise customer/account identifiers</strong> and <strong>wallet id</strong> (as returned by API) against app user.</td><td>One primary linkage per user unless product explicitly supports multiples.</td></tr>
+              <tr><td>FR-06</td><td>User sees <strong>combined status</strong>: <strong>PhlipVerify</strong> identity state plus <strong>Cowrywise</strong> linkage / wallet readiness (e.g. pending, verified, rejected), synced from your DB and webhooks.</td><td>Invest and withdraw gated per business rules when identity or partner requirements are not met.</td></tr>
+              <tr><td>FR-07</td><td>All investment and wallet operations use <strong>server-side</strong> Cowrywise calls with stored linkage.</td><td>No direct mobile-to-Cowrywise API calls with secrets.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>4.3 Product catalog (BR3)</h3>
+        <div class="scroll-x">
+          <table class="table-wide">
+            <thead>
+              <tr><th>ID</th><th>Requirement</th><th>Acceptance criteria</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>FR-08</td><td>App displays products from Cowrywise: savings, NGN mutual funds, fixed notes (as available).</td><td>List matches API; handles empty/error states.</td></tr>
+              <tr><td>FR-09</td><td>Each product shows: type, risk (if available), min amount, currency, and <strong>indicative</strong> returns/disclosures where API provides.</td><td>Copy reviewed for fair financial promotion; disclaimers where required.</td></tr>
+              <tr><td>FR-10</td><td>User can filter by <strong>product type</strong> and <strong>risk</strong> (and currency if multi-currency).</td><td>Filters apply client-side or via API query parameters if supported.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>4.4 Wallet and funding (BR4)</h3>
+        <div class="scroll-x">
+          <table class="table-wide">
+            <thead>
+              <tr><th>ID</th><th>Requirement</th><th>Acceptance criteria</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>FR-11</td><td>User sees <strong>wallet balance</strong> (NGN primary) from API.</td><td>Refresh on dashboard and after funding events.</td></tr>
+              <tr><td>FR-12</td><td>User sees <strong>virtual account number</strong> and <strong>funding instructions</strong> (bank name, account number, reference if applicable).</td><td>Copy is clear; supports common NIP/transfer UX.</td></tr>
+              <tr><td>FR-13</td><td>Balance updates after deposits with acceptable delay (poll or webhook-driven refresh).</td><td>User informed if balance is stale during known delays.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>4.5 Invest flow (BR5)</h3>
+        <div class="scroll-x">
+          <table class="table-wide">
+            <thead>
+              <tr><th>ID</th><th>Requirement</th><th>Acceptance criteria</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>FR-14</td><td>User selects product, enters amount; client validates min/max and available wallet balance (server authoritative).</td><td>Errors for insufficient funds, below minimum, or closed product.</td></tr>
+              <tr><td>FR-15</td><td>User confirms investment (summary screen: product, amount, fees if any).</td><td>Explicit confirm step; no one-tap accidental invest.</td></tr>
+              <tr><td>FR-16</td><td>Backend executes investment via Cowrywise API; returns success or structured error.</td><td>Idempotency key for retries on network failure.</td></tr>
+              <tr><td>FR-17</td><td>User sees <strong>success</strong> with reference/position hint, or <strong>clear error</strong> with next steps.</td><td>No silent failure.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>4.6 Portfolio and history (BR6)</h3>
+        <div class="scroll-x">
+          <table class="table-wide">
+            <thead>
+              <tr><th>ID</th><th>Requirement</th><th>Acceptance criteria</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>FR-18</td><td>User sees <strong>positions</strong>: value, cost basis (if available), return % (if available).</td><td>Graceful handling of missing metrics.</td></tr>
+              <tr><td>FR-19</td><td>User sees <strong>transaction history</strong>: date, amount, product, type (deposit, invest, withdraw, etc.), status.</td><td>Paginated; filter by type/date if MVP allows.</td></tr>
+              <tr><td>FR-20</td><td>Dashboard summarises total portfolio value and wallet balance.</td><td>Consistent with API within known lag.</td></tr>
+              <tr><td>FR-21</td><td>Tapping a transaction shows detail/receipt link if API provides URL or id for retrieval.</td><td>Deep link or in-app detail screen.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>4.7 Withdraw and redeem (BR7)</h3>
+        <div class="scroll-x">
+          <table class="table-wide">
+            <thead>
+              <tr><th>ID</th><th>Requirement</th><th>Acceptance criteria</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>FR-22</td><td>User can initiate <strong>withdrawal to bank</strong> or <strong>redemption</strong> per product rules via API.</td><td>Only shown when API/product supports.</td></tr>
+              <tr><td>FR-23</td><td>User enters amount (validated); confirms; sees <strong>status</strong> (e.g. Pending, Completed, Failed).</td><td>Polling or push for status updates if available.</td></tr>
+              <tr><td>FR-24</td><td>Timeline/SLA messaging is honest (e.g. &ldquo;up to X business days&rdquo;) aligned with Cowrywise behaviour.</td><td>Copy approved by product/legal.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>4.8 Compliance and security (BR8)</h3>
+        <div class="scroll-x">
+          <table class="table-wide">
+            <thead>
+              <tr><th>ID</th><th>Requirement</th><th>Acceptance criteria</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>FR-25</td><td>User accepts <strong>app terms</strong>, <strong>PhlipVerify</strong> (and data processing) terms as required, and <strong>Cowrywise/partner terms</strong> before creating or linking investment account.</td><td>Versioned consent stored with timestamp and document version id.</td></tr>
+              <tr><td>FR-26</td><td>Privacy notice available at registration and in settings (NDPR).</td><td>Covers data categories, purposes, retention, rights, DPO contact.</td></tr>
+              <tr><td>FR-27</td><td>No Cowrywise or <strong>PhlipVerify</strong> API keys or secrets in mobile builds; secrets in vault/env on server.</td><td>CI checks; secret scanning.</td></tr>
+              <tr><td>FR-28</td><td>TLS for all API traffic; secure storage of tokens on device (Keychain/Keystore).</td><td>Baseline mobile security checklist.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>4.9 Auto-Save (phased)</h3>
+        <p class="subtitle" style="font-size:0.875rem;color:var(--muted);margin:-0.25rem 0 0.75rem;">Aligned to BRD: round-ups, % of inflow, or fixed daily/weekly/monthly amounts into a chosen savings or wallet target. Implementation via Cowrywise recurring products, bank mandate, or app-orchestrated transfers when supported.</p>
+        <div class="scroll-x">
+          <table class="table-wide">
+            <thead>
+              <tr><th>ID</th><th>Requirement</th><th>Acceptance criteria</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>FR-29</td><td>User can create, edit, pause, or cancel an <strong>Auto-Save rule</strong> (frequency, amount or rule type, destination product or wallet).</td><td>Rules stored in app DB and/or synced to partner; user sees next run date and status.</td></tr>
+              <tr><td>FR-30</td><td>Each scheduled or triggered Auto-Save execution uses <strong>idempotency</strong> and writes <strong>audit events</strong> (scheduled, attempted, succeeded, failed, skipped).</td><td>Same logical debit cannot double-apply; support can trace correlation IDs.</td></tr>
+              <tr><td>FR-31</td><td>User receives clear disclosure of <strong>consent</strong> for debits (NDPR, mandate terms) before first activation.</td><td>Versioned consent stored; pause/cancel available without undue friction.</td></tr>
+              <tr><td>FR-32</td><td>Failures (insufficient funds, mandate decline, provider error) surface in-app with <strong>retry policy</strong> per product rules and full audit trail.</td><td>Transient failures retried with backoff where safe; permanent failures notify user.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>4.10 Lending and overdraft (phased)</h3>
+        <p class="subtitle" style="font-size:0.875rem;color:var(--muted);margin:-0.25rem 0 0.75rem;">Aligned to BRD: e.g. quick loan up to a % of savings balance; overdraft for customers with history, limit tied to average balance, repayment auto-deduct where permitted. Credit and collections remain on the partner; app is channel and control plane.</p>
+        <div class="scroll-x">
+          <table class="table-wide">
+            <thead>
+              <tr><th>ID</th><th>Requirement</th><th>Acceptance criteria</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>FR-33</td><td>User sees <strong>eligibility</strong> and <strong>pre-approved limit</strong> (or &ldquo;not eligible&rdquo;) from partner API; no client-side limit fabrication.</td><td>Stale limits refreshed on screen open or TTL; clear as-of timestamp.</td></tr>
+              <tr><td>FR-34</td><td>User can request a <strong>drawdown</strong> within limit; explicit confirm step with APR/fees/disclosure copy approved by legal.</td><td>Success returns facility reference; failure returns actionable error.</td></tr>
+              <tr><td>FR-35</td><td>User sees <strong>repayment schedule</strong>, outstanding balance, next due date, and <strong>history</strong> of draws and repayments.</td><td>Data from partner API; empty/error states handled.</td></tr>
+              <tr><td>FR-36</td><td><strong>Overdraft</strong> as a distinct facility (revolving line) vs term loan: product type, limit, utilisation, and interest accrual shown per partner contract.</td><td>UX distinguishes loan vs overdraft where both exist.</td></tr>
+              <tr><td>FR-37</td><td>All credit lifecycle events logged to <strong>immutable audit</strong> (offer shown, accepted, draw, repayment, default flag if any, partner webhook receipt).</td><td>Admin read-only views for compliance; PII minimisation.</td></tr>
+              <tr><td>FR-38</td><td><strong>Auto-repayment</strong> from wallet or linked account only when user consent and partner API allow; user can view and revoke where regulation permits.</td><td>Each debit follows same idempotency and audit patterns as section 7 flowcharts.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="s5">
+        <h2>5. Mobile app &ndash; information architecture (MVP)</h2>
+        <p>Suggested navigation (tab or drawer):</p>
+        <ol>
+          <li><strong>Home / Dashboard</strong> &ndash; wallet balance, portfolio summary, quick actions (Add money, Invest).</li>
+          <li><strong>Invest</strong> &ndash; product catalog, filters, product detail, invest flow.</li>
+          <li><strong>Portfolio</strong> &ndash; positions, performance summary, drill-down.</li>
+          <li><strong>Activity</strong> &ndash; transaction list and filters.</li>
+          <li><strong>Auto-Save</strong> <em>(phased)</em> &ndash; rules, next run, history of debits, pause/cancel.</li>
+          <li><strong>Borrow / Overdraft</strong> <em>(phased)</em> &ndash; eligibility, limit, drawdown, schedule, repayments; separate UX for term loan vs revolving overdraft.</li>
+          <li><strong>Profile</strong> &ndash; personal details, <strong>PhlipVerify</strong> eKYC status (liveness, BVN, NIN, address as enabled), bank accounts (if required by withdraw), mandates/consent for Auto-Save and auto-repay, legal (terms, privacy), support, logout.</li>
+        </ol>
+        <p><strong>Deep links (future):</strong> Post-KYC return URL, email magic links (if used).</p>
+      </section>
+
+      <section id="s6">
+        <h2>6. Web admin &ndash; information architecture (MVP)</h2>
+        <p>Admin is <strong>web-only</strong>; not a replacement for Cowrywise&rsquo;s own dashboards.</p>
+        <div class="scroll-x">
+          <table>
+            <thead>
+              <tr><th>Area</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Auth</strong></td><td>Staff login (SSO or email + MFA recommended).</td></tr>
+              <tr><td><strong>Users</strong></td><td>Search by email, phone, internal user id; view profile fields stored in app.</td></tr>
+              <tr><td><strong>Linkage</strong></td><td>Read-only: Cowrywise linkage ids, <strong>PhlipVerify</strong> verification status and correlation ids, last sync time (no secrets).</td></tr>
+              <tr><td><strong>Activity log</strong></td><td>Audit trail of admin actions and critical user events (export, role change).</td></tr>
+              <tr><td><strong>Credit / Auto-Save</strong> <em>(phased)</em></td><td>Read-only correlation: user&rsquo;s Auto-Save rule ids, credit facility references from partner, audit event search by correlation ID (no secrets).</td></tr>
+              <tr><td><strong>Support</strong></td><td>View user-facing error references / support ticket id linkage (if integrated).</td></tr>
+              <tr><td><strong>Config</strong></td><td>Non-secret feature flags (e.g. maintenance banner); <strong>never</strong> Cowrywise keys in UI.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>RBAC:</strong> At minimum roles such as Support (read), Compliance (read + export), Admin (config). Exact matrix in security design.</p>
+      </section>
+
+      <section id="s7">
+        <h2>7. User flows and architecture diagrams</h2>
+        <p>Logical flows and system context are maintained as <strong>rendered diagrams</strong>. Open in your browser:</p>
+        <p><a href="./investment-app-nigeria-flowcharts.html"><strong>investment-app-nigeria-flowcharts.html</strong></a></p>
+        <p>Contents:</p>
+        <ol>
+          <li>Mobile &ndash; new user, first investment (happy path).</li>
+          <li>Mobile &ndash; returning user: fund and invest.</li>
+          <li>Mobile &ndash; withdraw / redeem.</li>
+          <li>System context (mobile app, web admin, backend, PhlipVerify, Cowrywise).</li>
+          <li>Web admin &ndash; support lookup (illustrative).</li>
+          <li>Payments &ndash; services to integrate (includes phased credit partner and Auto-Save rules store).</li>
+          <li>Outbound payments &ndash; retries and audit.</li>
+          <li>Inbound webhooks &ndash; verification and audit.</li>
+          <li>Auto-Save rule lifecycle <em>(phased)</em>.</li>
+          <li>Lending and overdraft <em>(phased)</em>.</li>
+        </ol>
+        <p>Exact API endpoints follow Cowrywise and any credit partner documentation.</p>
+      </section>
+
+      <section id="s8">
+        <h2>8. Data model overview (backend)</h2>
+        <h3>8.1 Principles</h3>
+        <ul>
+          <li><strong>Source of truth for money and positions:</strong> Cowrywise. <strong>Source of truth for identity checks:</strong> PhlipVerify outcomes as stored in your DB (references and statuses). App DB holds <strong>references</strong>, <strong>cached read models</strong> for UX, and <strong>consent/audit</strong>.</li>
+          <li><strong>PII:</strong> Minimise; align retention with NDPR and policy.</li>
+          <li><strong>Idempotency:</strong> Store idempotency keys for invest/withdraw requests to safely retry.</li>
+        </ul>
+        <h3>8.2 Entity-relationship diagram</h3>
+        <p>The logical ERD (entities, relationships, key attributes) is in a separate HTML file:</p>
+        <p><a href="./investment-app-nigeria-erd.html"><strong>investment-app-nigeria-erd.html</strong></a> includes <code>IDENTITY_VERIFICATION</code> (PhlipVerify), <strong>phase 2</strong> <code>AUTOSAVE_RULE</code> and <code>CREDIT_FACILITY_CACHE</code>.</p>
+        <p><strong>Optional MVP+ tables</strong> (not required day one if history is API-only): <code>CACHED_TRANSACTION</code>, <code>CACHED_POSITION</code> for offline-friendly reads with TTL and sync jobs.</p>
+      </section>
+
+      <section id="s9">
+        <h2>9. Non-functional requirements (summary)</h2>
+        <div class="scroll-x">
+          <table>
+            <thead>
+              <tr><th>Area</th><th>Requirement</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Security</td><td>OWASP ASVS-aligned API; MFA for admin; least privilege; secrets in vault.</td></tr>
+              <tr><td>Availability</td><td>Target 99.5% app/API; degraded mode when Cowrywise unavailable (read cached balances with disclaimer).</td></tr>
+              <tr><td>Performance</td><td>Dashboard first paint and portfolio list within agreed SLA (e.g. &lt; 10s on 4G); pagination on lists.</td></tr>
+              <tr><td>Observability</td><td>Structured logs, metrics, tracing; alert on error rate and Cowrywise latency.</td></tr>
+              <tr><td>Data</td><td>Encryption at rest for DB; backup and restore tested; DPA with Cowrywise.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="s10">
+        <h2>10. Success metrics (from BRD)</h2>
+        <div class="scroll-x">
+          <table>
+            <thead>
+              <tr><th>Metric</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Activation</td><td>% sign-ups completing Cowrywise + first investment in 7 days.</td></tr>
+              <tr><td>Funding</td><td>Avg wallet balance; % funding within 24h of account creation.</td></tr>
+              <tr><td>Engagement</td><td>MAU; repeat investments per user.</td></tr>
+              <tr><td>AUM</td><td>Aggregate positions via Cowrywise-reported values.</td></tr>
+              <tr><td>NPS</td><td>Optional in-app survey post-first investment.</td></tr>
+              <tr><td>Auto-Save <em>(phased)</em></td><td>Activation rate of rules; success rate of scheduled runs; churn after failed debits.</td></tr>
+              <tr><td>Credit <em>(phased)</em></td><td>Draw approval rate; portfolio at risk; repayment on-time rate; limit utilisation.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="s11">
+        <h2>11. Product offerings reference (marketing / catalog copy)</h2>
+        <p>The BRD appendix describes <strong>Target / Fixed / Flex</strong> savings, <strong>mutual funds</strong>, fixed notes, T-Bills, real estate, dollar products, <strong>Auto-Save</strong> (round-ups, salary %, scheduled debits), <strong>Quick loans</strong> (e.g. up to a share of savings), and <strong>Overdraft</strong> (revolving line tied to history and average balance).</p>
+        <p><strong>MVP catalog</strong> is whatever <strong>Cowrywise Embed</strong> exposes today; marketing and in-app labels must match live API products and regulatory disclosures.</p>
+        <p><strong>Auto-Save</strong> and <strong>lending / overdraft</strong> are <strong>in this PRD as phased capabilities</strong> (sections 4.9&ndash;4.10, mobile IA, flowcharts, ERD extensions). They ship when the partner exposes recurring debits, credit limits, drawdown, and repayment APIs (or another licensed credit partner is integrated). Cards and unrelated forex remain out unless explicitly added.</p>
+      </section>
+
+      <section id="s12">
+        <h2>12. Open items</h2>
+        <ul>
+          <li>Exact Cowrywise Embed endpoints, webhook payloads, and error codes (to be captured in technical design).</li>
+          <li>PhlipVerify integration: modules enabled (liveness, BVN, NIN, address), API and webhook specs, signing keys rotation.</li>
+          <li>Bank account capture for withdrawals (app vs Cowrywise-hosted).</li>
+          <li>Push notifications provider and PII policy.</li>
+          <li>Admin RBAC matrix and SSO provider.</li>
+          <li>Partner API surface for <strong>Auto-Save</strong> (recurring or mandate) and for <strong>credit / overdraft</strong> (limits, draw, schedule, webhooks).</li>
+        </ul>
+      </section>
+
+      <section id="s13">
+        <h2>13. Document history</h2>
+        <div class="scroll-x">
+          <table>
+            <thead>
+              <tr><th>Version</th><th>Date</th><th>Changes</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1.0</td><td>Mar 2026</td><td>Initial PRD from BRD v1.0: mobile vs web split, FRs, flows, ERD</td></tr>
+              <tr><td>1.1</td><td>Mar 2026</td><td>Split: PRD Markdown only; flowcharts and ERD in companion HTML files</td></tr>
+              <tr><td>1.2</td><td>Mar 2026</td><td>Added HTML edition of PRD for browser viewing</td></tr>
+              <tr><td>1.3</td><td>Mar 2026</td><td>Factored in phased Auto-Save and lending/overdraft (FR-29&ndash;FR-38), IA, product reference, open items</td></tr>
+              <tr><td>1.4</td><td>Mar 2026</td><td>eKYC via PhlipVerify (not Cowrywise): FR-39&ndash;FR-44, assumptions, flowcharts, ERD identity entity</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </article>
+
+    <footer>
+      <a href="./index.html">Documentation hub</a> &middot; Investment App Nigeria &ndash; PRD v1.4
+    </footer>
+  </div>
+</body>
+</html>

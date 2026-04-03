@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Investment App Nigeria – Documentation hub</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --accent: #2563eb;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --card: #1e293b;
+        --text: #f1f5f9;
+        --muted: #94a3b8;
+        --border: #334155;
+        --accent: #60a5fa;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 2rem 1.5rem;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap { max-width: 640px; margin: 0 auto; }
+    h1 { font-size: 1.5rem; margin: 0 0 0.5rem; }
+    .lead { color: var(--muted); margin: 0 0 1.75rem; font-size: 0.95rem; }
+    ul.docs {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    ul.docs li {
+      margin: 0 0 0.75rem;
+    }
+    ul.docs a {
+      display: block;
+      padding: 1rem 1.25rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    ul.docs a:hover { border-color: var(--accent); }
+    ul.docs span {
+      display: block;
+      font-weight: 400;
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-top: 0.35rem;
+    }
+    .aside {
+      margin-top: 2rem;
+      padding: 1rem;
+      font-size: 0.8125rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+    code { font-size: 0.9em; }
+    .hub-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      font-size: 0.875rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .hub-nav a { color: var(--accent); text-decoration: none; }
+    .hub-nav a:hover { text-decoration: underline; }
+    .hub-nav span[aria-current="page"] { font-weight: 700; color: var(--text); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="hub-nav" aria-label="Documentation">
+      <span aria-current="page">All docs</span>
+      <a href="./investment-app-nigeria-PRD.html">PRD</a>
+      <a href="./investment-app-nigeria-flowcharts.html">Flowcharts</a>
+      <a href="./investment-app-nigeria-erd.html">ERD</a>
+    </nav>
+    <h1>Investment App – Nigeria</h1>
+    <p class="lead">Documentation: Cowrywise Embed for savings/invest, <strong>PhlipVerify</strong> for eKYC. Open any page below in your browser.</p>
+    <ul class="docs">
+      <li>
+        <a href="./investment-app-nigeria-PRD.html">
+          Product Requirements Document (PRD)
+          <span>Requirements, scope, functional specs, NFRs</span>
+        </a>
+      </li>
+      <li>
+        <a href="./investment-app-nigeria-flowcharts.html">
+          Flowcharts
+          <span>User journeys, payments architecture, retries and audit, system context</span>
+        </a>
+      </li>
+      <li>
+        <a href="./investment-app-nigeria-erd.html">
+          Backend ERD
+          <span>Logical app database (Mermaid diagram)</span>
+        </a>
+      </li>
+    </ul>
+    <p class="aside">
+      To preview the same ERD in Markdown (Mermaid) in the repo, open <code>../investment-app-nigeria-erd.md</code> (parent <code>docs/</code> folder; not deployed to static hosting).
+    </p>
+  </div>
+</body>
+</html>
