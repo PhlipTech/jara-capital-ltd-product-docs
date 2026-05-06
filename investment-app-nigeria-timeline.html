@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>4-month Delivery Timeline – JARA CAPITAL LIMITED</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --accent: #2563eb;
+      --ok: #16a34a;
+      --warn: #f59e0b;
+      --bad: #ef4444;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --card: #1e293b;
+        --text: #f1f5f9;
+        --muted: #94a3b8;
+        --border: #334155;
+        --accent: #60a5fa;
+        --ok: #22c55e;
+        --warn: #fbbf24;
+        --bad: #f87171;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 1.5rem;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      font-size: 0.9375rem;
+    }
+    .wrap { max-width: 1000px; margin: 0 auto; }
+    header.doc-head {
+      margin-bottom: 2rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 0 0 0.75rem;
+      letter-spacing: -0.02em;
+    }
+    h2 {
+      font-size: 1.25rem;
+      margin: 0 0 0.75rem;
+      letter-spacing: -0.01em;
+    }
+    h3 {
+      font-size: 1.05rem;
+      margin: 0 0 0.5rem;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 0 0 1rem;
+    }
+    .subtitle strong { color: var(--text); font-weight: 600; }
+    nav.doc-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+    nav.doc-nav a { color: var(--accent); text-decoration: none; }
+    nav.doc-nav a:hover { text-decoration: underline; }
+    nav.doc-nav a[aria-current="page"] { font-weight: 700; color: var(--text); pointer-events: none; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin: 1rem 0 1.5rem;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+    }
+    .stat {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0;
+    }
+    .label {
+      margin: 0.2rem 0 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .callout {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--warn);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0 1.5rem;
+    }
+    .callout strong { display: block; margin-bottom: 0.25rem; }
+    .grid2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin: 0.75rem 0 1.5rem;
+    }
+    .pill {
+      display: inline-block;
+      padding: 0.15rem 0.55rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .table-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 920px;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.85rem 0.9rem;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      font-size: 0.85rem;
+      color: var(--muted);
+      background: color-mix(in oklab, var(--card) 90%, var(--border));
+      position: sticky;
+      top: 0;
+    }
+    td ul { margin: 0.15rem 0 0; padding-left: 1.1rem; }
+    td ul li { margin: 0.15rem 0; }
+    .muted { color: var(--muted); }
+    footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8125rem;
+      text-align: center;
+    }
+    @media (max-width: 880px) {
+      .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="doc-head">
+      <h1>4‑month delivery timeline (8 sprints)</h1>
+      <p class="subtitle">
+        <strong>JARA CAPITAL LIMITED</strong><br>
+        Scope: MVP (Mobile + Backend + Admin) · Cadence: <strong>1 month = 2 sprints</strong> (2‑week sprints) · Output: milestones + sprint plan<br>
+        <strong>Month 1:</strong> full consumer onboarding (eKYC via <strong>PhlipVerify</strong> per PRD — use the same sprint breakdown if your vendor is FlipCheck or another provider), forgot password, PIN, and admin frontend kickoff.<br>
+        <strong>Month 2:</strong> <strong>RBAC</strong> (roles/permissions), staff admin login + <strong>invite/add other admin users</strong>, customer/user module; <strong>savings packages</strong> and <strong>investment packages</strong> created and managed in admin (not sourced from Cowrywise catalog); mobile product screens read the <strong>app catalog</strong> (admin-defined).
+      </p>
+      <nav class="doc-nav" aria-label="Documentation">
+        <a href="./index.html">All docs</a>
+        <a href="./investment-app-nigeria-PRD.html">PRD</a>
+        <a href="./investment-app-nigeria-flowcharts.html">Flowcharts</a>
+        <a href="./investment-app-nigeria-erd.html">ERD</a>
+        <a href="./investment-app-nigeria-timeline.html" aria-current="page">Timeline</a>
+      </nav>
+    </header>
+
+    <section class="cards" aria-label="Summary">
+      <div class="card">
+        <p class="stat">4 months</p>
+        <p class="label">Timeline</p>
+      </div>
+      <div class="card">
+        <p class="stat">8</p>
+        <p class="label">Sprints</p>
+      </div>
+      <div class="card">
+        <p class="stat">MVP</p>
+        <p class="label">Scope</p>
+      </div>
+      <div class="card">
+        <p class="stat">Admin</p>
+        <p class="label">Included</p>
+      </div>
+    </section>
+
+    <div class="callout" role="note" aria-label="Schedule risk note">
+      <strong>Schedule risk note</strong>
+      <div class="muted">
+        <strong>Product catalog</strong> is <strong>admin-authored</strong> in-app (savings and investment packages). Cowrywise (or embed partner) remains for
+        <strong>accounts, wallet, settlement</strong> after Month 2. Critical path from Month 3 onward: <strong>linkage</strong> → wallet / VA → funding →
+        <strong>execute invest</strong> (mapping admin products to partner instruments as per technical design) → portfolio / activity → withdraw.
+        PRD open items can shift Months 3–4.
+      </div>
+    </div>
+
+    <h2>Milestones</h2>
+    <div class="grid2" aria-label="Milestones">
+      <div class="card">
+        <div class="row" style="margin-top:0;">
+          <h3 style="margin:0;">M1: Onboarding + KYC + admin kickoff</h3>
+          <span class="pill">End of Month 1</span>
+        </div>
+        <p class="muted" style="margin:0.5rem 0 0;">
+          Full mobile onboarding (register, forgot password, PIN, terms), PhlipVerify eKYC integrated end-to-end, outcomes stored;
+          admin web app scaffolded with auth shell and first routes in staging.
+        </p>
+      </div>
+      <div class="card">
+        <div class="row" style="margin-top:0;">
+          <h3 style="margin:0;">M2: RBAC, staff provisioning, admin catalog, mobile product flow</h3>
+          <span class="pill">End of Month 2</span>
+        </div>
+        <p class="muted" style="margin:0.5rem 0 0;">
+          Admin: <strong>role-based access control</strong>, staff login, invite/add users and assign roles; customer directory/detail;
+          <strong>create and manage</strong> savings packages and investment packages (app-owned catalog). Mobile: savings &amp; investment
+          product list/detail/filters/disclosures served from <strong>your catalog API</strong> (not Cowrywise product list).
+        </p>
+      </div>
+      <div class="card">
+        <div class="row" style="margin-top:0;">
+          <h3 style="margin:0;">M3: Money movement (linkage, wallet, invest)</h3>
+          <span class="pill">End of Month 3</span>
+        </div>
+        <p class="muted" style="margin:0.5rem 0 0;">
+          Cowrywise linkage live; users can fund wallet and complete investments with idempotency, retries, and admin investment tracking.
+        </p>
+      </div>
+      <div class="card">
+        <div class="row" style="margin-top:0;">
+          <h3 style="margin:0;">M4: Portfolio, withdraw, UAT, go‑live</h3>
+          <span class="pill">End of Month 4</span>
+        </div>
+        <p class="muted" style="margin:0.5rem 0 0;">
+          Portfolio and activity complete; withdraw where supported; compliance hardening done; full UAT and production release executed.
+        </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <h2 style="margin:0;">Sprint plan</h2>
+      <span class="pill">Editable schedule</span>
+    </div>
+
+    <div class="table-wrap" aria-label="Sprint plan table">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 22%;">Sprint</th>
+            <th style="width: 22%;">Theme</th>
+            <th style="width: 34%;">Key deliverables</th>
+            <th style="width: 22%;">Exit gates</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Sprint 1 (Weeks 1–2)</strong><div class="muted">Month 1 · Weeks 1–2</div></td>
+            <td>Onboarding backend + mobile auth + admin frontend kickoff</td>
+            <td>
+              <ul>
+                <li>Backend: app user model, sessions, consent records, secure PIN storage (hashed), forgot-password flow (email/OTP per policy)</li>
+                <li>Mobile: register, login, logout, forgot password, create/confirm PIN, terms &amp; partner consent, basic profile</li>
+                <li>Backend: PhlipVerify server-side session/init endpoints; store correlation IDs (no secrets on device)</li>
+                <li>Admin frontend: project scaffold, routing, layout shell, login screen wired to staging API (or mock), environment config</li>
+                <li>Webhook receiver skeleton (signature + raw payload audit) for PhlipVerify callbacks</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Happy-path onboarding works in staging (up to KYC handoff)</li>
+                <li>PIN and password flows meet security baseline (Keychain/Keystore, rate limits)</li>
+                <li>Admin app builds and loads authenticated shell</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 2 (Weeks 3–4)</strong><div class="muted">Month 1 · Weeks 3–4</div></td>
+            <td>Full KYC (PhlipVerify) + onboarding completion + admin foundations</td>
+            <td>
+              <ul>
+                <li>Mobile: complete eKYC UX (liveness, BVN, NIN, address per enabled modules), blocked/retry/partial states, profile KYC status</li>
+                <li>Backend: PhlipVerify webhooks idempotent; persist per-check and overall status; NDPR-aligned minimisation</li>
+                <li>Backend: onboarding completion rules (what “verified” means); block downstream money actions until policy satisfied</li>
+                <li>Admin frontend: staff login/session and navigation (light route protection only; full RBAC matrix lands in Month 2)</li>
+                <li>Admin backend (parallel, optional): stub staff table or auth provider hook-up only if needed for KYC ops demos</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>KYC outcomes accurate; no false “verified” if required checks fail</li>
+                <li>Duplicate webhook events do not corrupt state</li>
+                <li>Admin can authenticate; role matrix deferred to Month 2 except basic “logged in vs not”</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 3 (Weeks 5–6)</strong><div class="muted">Month 2 · Weeks 5–6</div></td>
+            <td>RBAC + staff users + customer module + admin-created savings &amp; investment packages</td>
+            <td>
+              <ul>
+                <li><strong>RBAC:</strong> roles, permission matrix, server-side enforcement on all admin APIs; audit log for permission-sensitive actions</li>
+                <li><strong>Staff:</strong> admin login, session management; invite/create other staff users; assign roles; activate/deactivate/suspend; password reset (per policy)</li>
+                <li>Admin: <strong>customer/user directory</strong> (search, filters: onboarded, KYC state), read-only customer detail (profile + KYC summary)</li>
+                <li>Admin + backend: <strong>create, edit, list</strong> <strong>savings packages</strong> and <strong>investment packages</strong> (app database — e.g. name, type, currency, min amount, tenor, risk/disclosure fields, status draft/active)</li>
+                <li>Backend: <strong>public/catalog API</strong> for mobile — returns only active, visible packages (no Cowrywise product-list dependency)</li>
+                <li>Mobile: Invest tab — product list + detail wired to <strong>app catalog API</strong>; empty/error/offline states</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Unauthorized roles cannot access restricted admin actions (verified by tests)</li>
+                <li>Privileged staff can onboard another admin and assign a role</li>
+                <li>Created packages appear on mobile when marked active/visible</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 4 (Weeks 7–8)</strong><div class="muted">Month 2 · Weeks 7–8</div></td>
+            <td>Package lifecycle + compliance fields + customer depth + mobile journey polish</td>
+            <td>
+              <ul>
+                <li>Admin: package workflow — draft → review → active → archived; visibility in app, featured, display order, compliance/disclosure copy</li>
+                <li>Admin: user detail — expand with internal notes, KYC timeline, and (where available) linkage/wallet summary placeholders for Month 3</li>
+                <li>Backend: validation rules for packages (min/max, currency, status transitions); enforce visibility on catalog API</li>
+                <li>Mobile: filters, category tabs (savings vs investment), disclosures and “not ready to invest” vs ready states; optional <strong>partner product code</strong> field stored admin-side for later Cowrywise mapping (Month 3)</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Package changes affect mobile catalog without redeploy</li>
+                <li>Support can explain customer KYC + which packages exist from admin</li>
+                <li>Audit trail covers package and RBAC changes</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 5 (Weeks 9–10)</strong><div class="muted">Month 3 · Weeks 9–10</div></td>
+            <td>Cowrywise linkage + wallet + funding</td>
+            <td>
+              <ul>
+                <li>Backend: create/link Cowrywise account after KYC policy satisfied; persist customer + wallet identifiers</li>
+                <li>Mobile: wallet balance, virtual account details, funding instructions, balance refresh (poll/webhook)</li>
+                <li>Admin: per-user and aggregate wallet balance views with as-of timestamp / stale indicator</li>
+                <li>Outbound payment reliability foundations for later invest (idempotency store, audit events)</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>User can fund wallet via VA and see updated balance within agreed delay</li>
+                <li>Linkage and wallet data consistent between mobile and admin read models</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 6 (Weeks 11–12)</strong><div class="muted">Month 3 · Weeks 11–12</div></td>
+            <td>Execute invest + reliability + admin investment operations</td>
+            <td>
+              <ul>
+                <li>Mobile: invest flow — amount validation, confirm, submit; success/failure UX</li>
+                <li>Backend: execute investment via Cowrywise using <strong>mapping</strong> from admin-defined package to partner product/fund identifier (stored on package or config); idempotency keys; retries with backoff/jitter; DLQ + alerts</li>
+                <li>Admin: investment requests queue, request detail, progress timeline, correlation to user and product</li>
+                <li>Observability: structured logs, metrics, tracing, error-rate and provider latency alerts</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>No double-invest on duplicate submits</li>
+                <li>Admin can trace any investment request end-to-end</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 7 (Weeks 13–14)</strong><div class="muted">Month 4 · Weeks 13–14</div></td>
+            <td>Portfolio + activity + withdraw + compliance hardening</td>
+            <td>
+              <ul>
+                <li>Mobile: portfolio positions and performance summary; activity feed with filters; transaction detail</li>
+                <li>Mobile: withdraw/redeem where API supports; honest SLA copy</li>
+                <li>Admin: global and per-user transaction history (filters, pagination, export hooks)</li>
+                <li>Privacy notice + consent versioning hardening (NDPR); penetration test fixes as needed</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Statuses consistent across mobile and admin</li>
+                <li>Withdraw only offered when product rules allow</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 8 (Weeks 15–16)</strong><div class="muted">Month 4 · Weeks 15–16</div></td>
+            <td>UAT + release prep + go-live</td>
+            <td>
+              <ul>
+                <li>Full E2E regression: onboarding + KYC + catalog + fund + invest + portfolio + withdraw</li>
+                <li>Admin regression: staff, users, products, investments, balances, audit exports</li>
+                <li>Production readiness: backups, monitoring, on-call, rollback plan; go/no-go sign-off</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>No open P0/P1 defects; runbooks finalized</li>
+                <li>Go-live sign-off recorded</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer>
+      <a href="./index.html" style="color:var(--accent); text-decoration:none;">Documentation hub</a>
+      &middot; Timeline (4 months)
+    </footer>
+  </div>
+</body>
+</html>
+
